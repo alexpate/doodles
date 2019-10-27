@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas Orb</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="orb" width="600" height="120"></canvas>
+
+    <script>
+      const canvas = document.getElementById('orb');
+      const ctx = canvas.getContext('2d');
+      const orbRadius = 10;
+
+      let x = canvas.width / 2;
+      let y = canvas.height - 40;
+      let dx = 2;
+      let dy = 1;
+
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+      gradient.addColorStop(0, '#FC58FF');
+      gradient.addColorStop(1, '#FF6240');
+
+      const drawOrb = () => {
+        ctx.beginPath();
+        ctx.arc(x, y, orbRadius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        ctx.closePath();
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawOrb();
+
+        if (x + dx > canvas.width - orbRadius || x + dx < orbRadius) {
+          dx = -dx;
+        }
+        if (y + dy > canvas.height - orbRadius || y + dy < orbRadius) {
+          dy = -dy;
+        }
+
+        x += dx;
+        y += dy;
+      };
+
+      setInterval(draw, 10);
+    </script>
+  </body>
+</html>
